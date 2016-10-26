@@ -20,7 +20,7 @@ t_lmap	*ft_lmapget(t_lmap *map, void const *key)
 	while (cur)
 	{
 		if (ft_memcmp(key, cur->key, cur->key_size) == 0)
-			return(cur);
+			return (cur);
 		cur = cur->next;
 	}
 	return (NULL);
