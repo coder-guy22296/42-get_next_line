@@ -18,25 +18,38 @@
 */
 
 #include "get_next_line.h"
+#include <fcntl.h>
 
 int	get_next_line(const int fd, char **line)
 {
-	static t_lmap *buffer_map = NULL;
-	//check if there is a buffer already for a file descriptor
+	static t_lmap	*buffer_map = 0;
+	t_lmap			*cur_buff;
 
-	// if not, add to the buffer map
+	cur_buff = ft_lmapget(buffer_map, &fd);
+	// if there is no buffer for this file descriptor make one and fill buffer
+	if (cur_buff == 0)
+	{
+		cur_buff = ft_lmapnew(&fd, ft_memalloc(sizeof(char) * (BUFF_SIZE + 1)),
+						(sizeof(char) * (BUFF_SIZE + 1)), sizeof(int));
+		
+		read(fd, cur_buff->content, BUFF_SIZE);
+		ft_lmapadd(&buffer_map, cur_buff);
+	}
+	//attempt read from buffer
 
-	// if there is already a buffer copy till the first \n char into line var
+	//
+
+	//copy till the first \n char into line var
 		// shift the remaining amount in the buffer to the front
 		// note the end of the data in the buffer and fill in the rest with a fresh read
-
-	//Keep buffer full
-	//and copy data from the buffer
-	//refill buffer
-	//copy the rest of the line
-	//refill and copy till the line is read
-	//refill
-	//return data
+	//copy line
+		//Keep buffer full
+		//and copy data from the buffer
+		//refill buffer
+		//copy the rest of the line
+		//refill and copy till the line is read
+		//refill
+		//return data
 
 	//linked map
 		//add(key, value)
