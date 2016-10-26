@@ -21,6 +21,15 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_lmap
+{
+	void			*key;
+	size_t			key_size;
+	void			*content;
+	size_t			content_size;
+	struct s_lmap	*next;
+}					t_lmap;
+
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -64,13 +73,8 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
-int					ft_isspace(int c);
 char				*ft_strtrim(char const *s);
-void				ft_stradel(char ***arr);
-int					ft_cntwords(char const *str, char delim);
 char				**ft_strsplit(char const *s, char c);
-unsigned int		ft_pop_sign(int n, int *sign);
-int					ft_count_digits(int n);
 char				*ft_itoa(int n);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
@@ -86,6 +90,20 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+/*
+**					EXTRAS
+*/
+int					ft_isspace(int c);
+void				ft_stradel(char ***arr);
+int					ft_cntwords(char const *str, char delim);
+unsigned int		ft_pop_sign(int n, int *sign);
+int					ft_count_digits(int n);
 void				ft_lstaddend(t_list **alist, t_list *new);
+t_lmap				*ft_lmapnew(void const *key, void const *content,
+								size_t content_size, size_t key_size);
+void				ft_lmapadd(t_lmap **map, t_lmap *new);
+int					ft_lmapremove(t_lmap **map, void const *key,
+							void (*del)(void *, size_t, void *, size_t));
+t_lmap				*ft_lmapget(t_lmap *map, void const *key);
 
 #endif
