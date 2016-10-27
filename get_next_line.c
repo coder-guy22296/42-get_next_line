@@ -25,25 +25,35 @@ int	get_next_line(const int fd, char **line)
 	static t_lmap	*buffer_map = 0;
 	t_lmap			*cur_buff;
 	int				line_len;
+	char	*newline_ptr;
+
 
 	cur_buff = ft_lmapget(buffer_map, &fd);
 	// if there is no buffer for this file descriptor make one and fill buffer
 	if (cur_buff == 0)
 	{
-		cur_buff = ft_lmapnew(&fd, ft_strnew(sizeof(char) * (BUFF_SIZE + 1)),
+		cur_buff = ft_lmapnew(&fd, ft_strnew(sizeof(char) * BUFF_SIZE),
 						(sizeof(char) * (BUFF_SIZE + 1)), sizeof(int));
 		
 		read(fd, cur_buff->content, BUFF_SIZE);
 		ft_lmapadd(&buffer_map, cur_buff);
 	}
 	//attempt read from buffer
-	line_len = (char *)ft_strchr(cur_buff->content, '\n') - (char *)cur_buff->content;
-	if (line_len <= BUFF_SIZE)
+	newline_ptr = (char *)ft_strchr(cur_buff->content, '\n');
+	if (newline_ptr)//newline in buffer
 	{
+		line_len =  newline_ptr - (char *)cur_buff->content;
 		ft_strncpy(*line, cur_buff->content, line_len);
-		ft_memmove(cur_buff->content, cur_buff->content[line_len + 1],
-					BUFF_SIZE - line_len - 1);
-		read(fd, &cur_buff->content[line_len], BUFF_SIZE - line_len);
+		ft_memmove(cur_buff->content, newline_ptr + 1,
+					BUFF_SIZE - (line_len + 1));
+		read(fd, &cur_buff->content[BUFF_SIZE - (line_len + 1)], line_len + 1);
+	}
+	else//no newline in buffer(repeat until not true)
+	{
+		read(fd, cur_buff->content, BUFF_SIZE);
+		
+		//copy full buffer into output
+		//read full buffer
 	}
 	//
 
