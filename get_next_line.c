@@ -27,6 +27,7 @@ int	get_next_line(const int fd, char **line)
 	int				line_len;
 	char			*newline_ptr;
 	char			*write_buff;
+	int				bytes_read;
 
 	write_buff = ft_strnew(BUFF_SIZE);
 	cur_buff = ft_lmapget(buffer_map, &fd);
@@ -36,14 +37,14 @@ int	get_next_line(const int fd, char **line)
 		cur_buff = ft_lmapnew(&fd, ft_strnew(BUFF_SIZE),
 						(sizeof(char) * (BUFF_SIZE + 1)), sizeof(int));
 		
-		read(fd, cur_buff->content, BUFF_SIZE);
+		bytes_read = read(fd, cur_buff->content, BUFF_SIZE);
 		ft_lmapadd(&buffer_map, cur_buff);
 	}
 
-	while(!(newline_ptr = (char *)ft_strchr(cur_buff->content, '\n')))
+	while(!(newline_ptr = (char *)ft_strchr(cur_buff->content, '\n')) && bytes_read == BUFF_SIZE)
 	{
 		*line = ft_strjoin(*line, cur_buff->content);
-		read(fd, cur_buff->content, BUFF_SIZE);
+		bytes_read = read(fd, cur_buff->content, BUFF_SIZE);
 	}
 	if (newline_ptr)//newline in buffer (should always be true at this point in the code!!)
 	{
@@ -53,24 +54,16 @@ int	get_next_line(const int fd, char **line)
 		ft_strclr(write_buff);
 		ft_memmove(cur_buff->content, newline_ptr + 1,
 					BUFF_SIZE - (line_len + 1));
-		read(fd, &cur_buff->content[BUFF_SIZE - (line_len + 1)], line_len + 1);
+		if (bytes_read < BUFF_SIZE)
+			cur_buff->content[BUFF_SIZE - (line_len + 1)] = '\0'
+		else
+			bytes_read = read(fd, &cur_buff->content[BUFF_SIZE - (line_len + 1)], line_len + bytes_read);
+	}
+	else if (bytes_read < BUFF_SIZE)
+	{
+		ft_strncpy(write_buff, cur_buff->content, bytes_read);
+		*line = ft_strjoin(*line, write_buff);
 	}
 	ft_strdel(cur_buff);
 	ft_strdel(write_buff);
-	//copy till the first \n char into line var
-		// shift the remaining amount in the buffer to the front
-		// note the end of the data in the buffer and fill in the rest with a fresh read
-	//copy line
-		//Keep buffer full
-		//and copy data from the buffer
-		//refill buffer
-		//copy the rest of the line
-		//refill and copy till the line is read
-		//refill
-		//return data
-
-	//linked map
-		//add(key, value)
-		//remove(key)
-		//get(key)
 }
