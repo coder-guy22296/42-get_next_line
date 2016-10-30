@@ -30,6 +30,13 @@ typedef struct		s_lmap
 	struct s_lmap	*next;
 }					t_lmap;
 
+typedef struct		s_buff
+{
+	void			*buffer;
+	int				buffer_len;
+	int				read_len;
+}					t_buff;
+
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -105,5 +112,7 @@ void				ft_lmapadd(t_lmap **map, t_lmap *new);
 int					ft_lmapremove(t_lmap **map, void const *key,
 							void (*del)(void *, size_t, void *, size_t));
 t_lmap				*ft_lmapget(t_lmap *map, void const *key);
+char				*ft_strmerge(char **main_str, char *add_str);
+t_buff				*ft_newbuffer(int buffer_len, size_t elem_size);
 
 #endif
