@@ -38,9 +38,9 @@ int main()
 		get_next_line(fd, &str);
 		printf("==================================\n");
 		printf("call %d returned: %s\n", i+1, str);
-		//usestackmem();
+		usestackmem();
 		printf("REKTD the STACK\n");
-		//(str);
+		free(str);
 		i++;
 	}
 }
