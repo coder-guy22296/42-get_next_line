@@ -46,7 +46,7 @@ static void handle_partial_Buffer(t_lmap *cur_buff, char *newline_ptr, char **li
 				printf(" && EOF_IN_BUFFER");
 		printf("\n");
 		line_len =  newline_ptr - (char *)buffer->buffer;
-		printf("Function: line len: %d\n", line_len);
+		//printf("Function: line len: %d\n", line_len);
 		ft_strncpy(write_buff, buffer->buffer, line_len);
 		printf("Function: COPY\n");
 		*line = ft_strjoin(*line, write_buff);
@@ -58,9 +58,9 @@ static void handle_partial_Buffer(t_lmap *cur_buff, char *newline_ptr, char **li
 					buffer->buf_util - (line_len + 1));
 		buffer->buf_util -= line_len + 1;
 		printf("Function: SHIFT\n");
-		printf("Function: read_len:%d\n", buffer->read_len);
-		printf("Function: line_len:%d\n", line_len);
-		printf("Function: buf_util:%d\n", buffer->buf_util);
+		//printf("Function: read_len:%d\n", buffer->read_len);
+		//printf("Function: line_len:%d\n", line_len);
+		//printf("Function: buf_util:%d\n", buffer->buf_util);
 		printf("Function: BUFF:\n'%s'\n", buffer->buffer);
 		//if (buffer->read_len < BUFF_SIZE)
 		//{
@@ -71,17 +71,17 @@ static void handle_partial_Buffer(t_lmap *cur_buff, char *newline_ptr, char **li
 		//else
 		//{
 			printf("Function: FILL BUFF\n");
-			buffer->read_len = read(fd, &buffer->buffer[buffer->buf_util], BUFF_SIZE - buffer->buf_util);
-			buffer->buf_util += buffer->read_len;
-			printf("Function: bytes Read3: %d\n", buffer->read_len);
+			buffer->buf_util += read(fd, &buffer->buffer[buffer->buf_util], BUFF_SIZE - buffer->buf_util);
+			//printf("Function: bytes Read3: %d\n", buffer->read_len);
 		//}
 	}
 	//	if no newline in buffer
 	else/* if (buffer->read_len < BUFF_SIZE)*/
 	{
 		printf("Function: \t\tBuffer State: EOF_IN_BUFFER\n");
-		printf("Function: bytes Read: %d\n", buffer->read_len);
+		//printf("Function: bytes Read: %d\n", buffer->read_len);
 		ft_strncpy(write_buff, buffer->buffer, buffer->buf_util);
+		buffer->buf_util = 0;
 		*line = ft_strjoin(*line, write_buff);
 		//ft_strclr(buffer->buffer);
 	}
@@ -116,27 +116,26 @@ int	get_next_line(const int fd, char **line)
 		printf("Function: \t\tBuffer State: NO_BUFFER\n");
 		cur_buff = ft_lmapnew(&fd, ft_newbuffer(BUFF_SIZE + 1, sizeof(char)),
 						(sizeof(char) * (BUFF_SIZE + 1)), sizeof(int));
-		((t_buff *)cur_buff->content)->read_len = read(fd, ((t_buff *)cur_buff->content)->buffer, BUFF_SIZE);
-		((t_buff *)cur_buff->content)->buf_util += ((t_buff *)cur_buff->content)->read_len;
-		printf("Function: bytes Read1: %d\n", ((t_buff *)cur_buff->content)->read_len);
+		((t_buff *)cur_buff->content)->buf_util += read(fd, ((t_buff *)cur_buff->content)->buffer, BUFF_SIZE);
+		//printf("Function: bytes Read1: %d\n", ((t_buff *)cur_buff->content)->read_len);
 		printf("Function: FILL BUFF\n");
 		//printf("Function: '%s'\n", buffer->buffer);
 		ft_lmapadd(&buffer_map, cur_buff);
 	}
 	buffer = (t_buff *)cur_buff->content;
-	while(!(newline_ptr = (char *)ft_strchr(buffer->buffer, '\n')) && buffer->read_len == BUFF_SIZE)
+	while(!(newline_ptr = (char *)ft_strchr(buffer->buffer, '\n')) && buffer->buf_util == BUFF_SIZE)
 	{//	while no newline in buffer && buffer is full
 		printf("Function: \t\tBuffer State: FULL_BUFFER\n");
 		printf("Function: BUFF:\n'%s'\n", buffer->buffer);
 		*line = ft_strjoin(*line, buffer->buffer);
+		buffer->buf_util = 0;
 		printf("Function: line: %s\n", *line);
 		printf("Function: top off buffer\n");
-		buffer->read_len = read(fd, buffer->buffer, BUFF_SIZE);
-		buffer->buf_util += buffer->read_len;
-		printf("Function: bytes Read2: %d\n", buffer->read_len);
+		buffer->buf_util += read(fd, buffer->buffer, BUFF_SIZE);
+		//printf("Function: bytes Read2: %d\n", buffer->read_len);
 	}//null the rest of the buffer if not full
-	printf("I MADE IT BRO\n");
-	if (buffer->read_len != 0)
+	//printf("I MADE IT BRO\n");
+	if (buffer->buf_util != 0)
 		ft_bzero(&buffer->buffer[buffer->buf_util], BUFF_SIZE - buffer->buf_util);
 	handle_partial_Buffer(cur_buff, newline_ptr, line, fd);
 	return (1);
