@@ -35,6 +35,7 @@ typedef struct		s_buff
 	void			*buffer;
 	int				buffer_len;
 	int				read_len;
+	int				buf_util;
 }					t_buff;
 
 int					ft_isalpha(int c);

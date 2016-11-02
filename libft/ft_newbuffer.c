@@ -21,5 +21,6 @@ t_buff	*ft_newbuffer(int buffer_len, size_t elem_size)
 		return (NULL);
 	buff->buffer_len = buffer_len;
 	buff->read_len = 0;
+	buff->buf_util = 0;
 	return (buff);
 }
