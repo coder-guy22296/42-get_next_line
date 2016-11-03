@@ -10,9 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+**	only works with buffer sizes 1-2147483646 because of int limitations
+*/
+
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 99
+# define BUFF_SIZE 500
 
 int	get_next_line(const int fd, char **line);
 
