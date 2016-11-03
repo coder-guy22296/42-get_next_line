@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/10/12 11:59:25 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/10/12 13:51:04 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include "includes/libft.h"
 
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
+{
+	t_list *current;
+	t_list *last;
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	current = *alst;
+	*alst = NULL;
+	if (current)
+	{
+		while (current->next)
+		{
+			last = current;
+			current = current->next;
+			ft_lstdelone(&last, del);
+		}
+		ft_lstdelone(&current, del);
+	}
+}

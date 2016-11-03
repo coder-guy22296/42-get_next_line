@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/10/09 17:02:21 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/10/09 19:38:59 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include "includes/libft.h"
 
+void	ft_putnbr_fd(int n, int fd)
+{
+	int				sign;
+	unsigned int	num;
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	num = ft_pop_sign(n, &sign);
+	if (sign)
+		ft_putchar_fd('-', fd);
+	if (num >= 10)
+		ft_putnbr_fd(num / 10, fd);
+	ft_putchar_fd((num % 10) + '0', fd);
+}

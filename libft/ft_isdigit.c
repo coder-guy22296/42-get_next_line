@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/09/22 23:59:41 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/09/23 00:45:23 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
-
-
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
+}

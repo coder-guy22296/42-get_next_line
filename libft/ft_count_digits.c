@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_count_digits.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/10/09 19:45:29 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/10/09 19:47:19 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include "includes/libft.h"
 
+int	ft_count_digits(int n)
+{
+	int				i;
+	unsigned int	cur;
+	int				sign;
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	cur = ft_pop_sign(n, &sign);
+	if (n == 0)
+		return (1);
+	while (cur >= 1)
+	{
+		cur /= 10;
+		i++;
+	}
+	return (i);
+}

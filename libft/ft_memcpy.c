@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/09/25 20:47:48 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/09/26 15:52:27 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include <string.h>
 
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t			index;
+	unsigned char	*src_ptr;
+	unsigned char	*dst_ptr;
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	index = 0;
+	src_ptr = (unsigned char *)src;
+	dst_ptr = (unsigned char *)dst;
+	while (index < n)
+	{
+		dst_ptr[index] = src_ptr[index];
+		index++;
+	}
+	return (dst);
+}

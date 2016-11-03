@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/09/25 13:44:46 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/09/28 13:22:21 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include <string.h>
+#include "includes/libft.h"
 
+char	*ft_strstr(const char *big, const char *little)
+{
+	char	*ptr;
+	int		index;
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+	index = 0;
+	if (*little == '\0')
+		return ((char *)big);
+	while (big[index] != '\0')
+	{
+		if (big[index] == little[0])
+		{
+			ptr = (char *)&big[index];
+			if (!ft_memcmp(ptr, little, ft_strlen(little)))
+				return (ptr);
+		}
+		index++;
+	}
+	return (NULL);
+}

@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_newbuffer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/25 18:16:07 by cyildiri          #+#    #+#             */
-/*   Updated: 2016/10/25 18:19:17 by cyildiri         ###   ########.fr       */
+/*   Created: 2016/10/29 18:04:30 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/10/29 18:15:39 by cyildiri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	only works with buffer sizes 1-2147483646 because of int limitations
-*/
+#include "includes/libft.h"
 
-
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 500
-
-int	get_next_line(const int fd, char **line);
-
-#endif
+t_buff	*ft_newbuffer(int buffer_len, size_t elem_size)
+{
+	t_buff *buff;
+	if (!(buff = (t_buff *)ft_memalloc(sizeof(t_buff))))
+		return (NULL);
+	if(!(buff->buffer = ft_memalloc(elem_size * buffer_len)))
+		return (NULL);
+	buff->buffer_len = buffer_len;
+	buff->read_len = 0;
+	buff->buf_util = 0;
+	return (buff);
+}

@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lmapremove.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyildiri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/26 13:23:21 by cyildiri          #+#    #+#             */
+/*   Updated: 2016/10/26 13:23:22 by cyildiri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "includes/libft.h"
+
+int	ft_lmapremove(t_lmap **map, void const *key,
+					void (*del)(void *, size_t, void *, size_t))
+{
+	t_lmap *cur;
+	t_lmap *last;
+
+	cur = *map;
+	last = *map;
+	while (cur)
+	{
+		if (ft_memcmp(key, cur->key, cur->key_size) == 0)
+		{
+			del(cur->key, cur->key_size, cur->content, cur->content_size);
+			if (last != *map)
+				last->next = cur->next;
+			else
+				*map = cur->next;
+			ft_memdel((void **)&cur);
+			return (1);
+		}
+		last = cur;
+		cur = cur->next;
+	}
+	return (0);
+}
