@@ -108,25 +108,3 @@ int			get_next_line(const int fd, char **line)
 	handle_partial_buffer(cur_buff, newline_ptr, line, fd);
 	return (1);
 }
-		/*if (!(cur_buff = ft_lmapnew(&fd, ft_newbuffer(BUFF_SIZE + 1,
-								sizeof(char)), sizeof(t_buff), sizeof(int))))
-			return (-1);
-		bytes_read = read(fd, ((t_buff *)cur_buff->content)->buffer,
-							BUFF_SIZE);
-		if (bytes_read > 0)
-			((t_buff *)cur_buff->content)->buf_util += bytes_read;
-		ft_lmapadd(&buffer_map, cur_buff);*/
-
-
-	/*while (!(newline_ptr = (char *)ft_strchr(buffer->buffer, '\n')) &&
-			buffer->buf_util == BUFF_SIZE)
-	{
-		*line = ft_strjoin(*line, buffer->buffer);
-		buffer->buf_util = 0;
-		bytes_read = read(fd, buffer->buffer, BUFF_SIZE);
-		if (bytes_read > 0)
-			buffer->buf_util += bytes_read;
-	}
-	if (buffer->buf_util != 0)
-		ft_bzero(&buffer->buffer[buffer->buf_util],
-					BUFF_SIZE - buffer->buf_util);*/
