@@ -12,8 +12,8 @@
 
 #include "includes/libft.h"
 
-int	ft_lmapremove(t_lmap **map, void const *key,
-					void (*del)(void *, size_t, void *, size_t))
+int	ft_lmapremove(t_lmap **map, void const *key, void (*del_key)(void *),
+					void (*del_content)(void *))
 {
 	t_lmap *cur;
 	t_lmap *last;
@@ -24,7 +24,8 @@ int	ft_lmapremove(t_lmap **map, void const *key,
 	{
 		if (ft_memcmp(key, cur->key, cur->key_size) == 0)
 		{
-			del(cur->key, cur->key_size, cur->content, cur->content_size);
+			del_content(cur->content);
+			del_key(cur->key);
 			if (last != *map)
 				last->next = cur->next;
 			else

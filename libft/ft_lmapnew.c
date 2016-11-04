@@ -12,8 +12,8 @@
 
 #include "includes/libft.h"
 
-t_lmap	*ft_lmapnew(void const *key, void const *content, size_t content_size,
-					size_t key_size)
+t_lmap	*ft_lmapnew(void const *key, size_t key_size, void const *content,
+					size_t content_size)
 {
 	t_lmap *node;
 

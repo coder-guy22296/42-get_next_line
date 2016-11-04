@@ -106,14 +106,15 @@ int					ft_cntwords(char const *str, char delim);
 unsigned int		ft_pop_sign(int n, int *sign);
 int					ft_count_digits(int n);
 void				ft_lstaddend(t_list **alist, t_list *new);
-t_lmap				*ft_lmapnew(void const *key, void const *content,
-								size_t content_size, size_t key_size);
+t_lmap				*ft_lmapnew(void const *key, size_t key_size,
+								void const *content, size_t content_size);
 void				ft_lmapadd(t_lmap **map, t_lmap *new);
 int					ft_lmapremove(t_lmap **map, void const *key,
-							void (*del)(void *, size_t, void *, size_t));
+						void (*del_key)(void *), void (*del_content)(void *));
 t_lmap				*ft_lmapget(t_lmap *map, void const *key);
 char				*ft_strmerge(char **main_str, char *add_str);
 t_buff				*ft_newbuffer(int buffer_len, size_t elem_size);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t s2size);
+void				ft_delbuffer(void *buffer);
 
 #endif
