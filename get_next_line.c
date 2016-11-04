@@ -20,19 +20,22 @@
 #include "get_next_line.h"
 #include "libft/includes/libft.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 static int	create_buffer(t_lmap **buffer_map, t_lmap **cur_buff, int fd)
 {
 	int				bytes_read;
+	t_buff			*tmpbuff;
 
-	if (!(*cur_buff = ft_lmapnew(&fd, ft_newbuffer(BUFF_SIZE + 1,
-							sizeof(char)), sizeof(t_buff), sizeof(int))))
+	tmpbuff = ft_newbuffer(BUFF_SIZE + 1, sizeof(char));
+	if (!(*cur_buff = ft_lmapnew(&fd, tmpbuff, sizeof(t_buff), sizeof(int))))
 		return (-1);
 	bytes_read = read(fd, ((t_buff *)(*cur_buff)->content)->buffer,
 						BUFF_SIZE);
 	if (bytes_read > 0)
 		((t_buff *)(*cur_buff)->content)->buf_util += bytes_read;
 	ft_lmapadd(buffer_map, *cur_buff);
+	free(tmpbuff);
 	return (0);
 }
 
@@ -40,11 +43,14 @@ static void	handle_full_buffer(t_buff *buffer, char *newline_ptr,
 									char **line, int fd)
 {
 	int				bytes_read;
+	char			*tmp;
 
 	while (!(newline_ptr = (char *)ft_strchr(buffer->buffer, '\n')) &&
 			buffer->buf_util == BUFF_SIZE)
 	{
-		*line = ft_strjoin(*line, buffer->buffer);
+		tmp = ft_strjoin(*line, buffer->buffer);
+		free(*line);
+		*line = tmp;
 		buffer->buf_util = 0;
 		bytes_read = read(fd, buffer->buffer, BUFF_SIZE);
 		if (bytes_read > 0)
@@ -53,6 +59,15 @@ static void	handle_full_buffer(t_buff *buffer, char *newline_ptr,
 	if (buffer->buf_util != 0)
 		ft_bzero(&buffer->buffer[buffer->buf_util],
 					BUFF_SIZE - buffer->buf_util);
+}
+
+static char	*strnjoin_wrapper(char *s1, char *s2, size_t s2size)
+{
+	char			*tmp;
+
+	tmp = ft_strnjoin(s1, s2, s2size);
+	free(s1);
+	return (tmp);
 }
 
 static void	handle_partial_buffer(t_lmap *cur_buff, char *newline_ptr,
@@ -67,7 +82,7 @@ static void	handle_partial_buffer(t_lmap *cur_buff, char *newline_ptr,
 	if (newline_ptr)
 	{
 		line_len = newline_ptr - (char *)buffer->buffer;
-		*line = ft_strnjoin(*line, buffer->buffer, line_len);
+		*line = strnjoin_wrapper(*line, buffer->buffer, line_len);
 		ft_memmove(buffer->buffer, newline_ptr + 1,
 					buffer->buf_util - (line_len + 1));
 		buffer->buf_util -= line_len + 1;
@@ -80,7 +95,7 @@ static void	handle_partial_buffer(t_lmap *cur_buff, char *newline_ptr,
 	}
 	else
 	{
-		*line = ft_strnjoin(*line, buffer->buffer, buffer->buf_util);
+		*line = strnjoin_wrapper(*line, buffer->buffer, buffer->buf_util);
 		buffer->buf_util = 0;
 	}
 }
