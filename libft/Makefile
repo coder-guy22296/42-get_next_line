@@ -24,7 +24,7 @@ SRC = ft_memalloc.c ft_strdup.c ft_memccpy.c ft_strequ.c ft_atoi.c ft_memchr.c\
           ft_strcat.c ft_strstr.c ft_lstdel.c ft_strchr.c ft_strsub.c\
            ft_lstdelone.c ft_strclr.c ft_strtrim.c ft_lstiter.c ft_strcmp.c\
             ft_tolower.c ft_lstmap.c ft_strcpy.c ft_toupper.c ft_lstnew.c\
-             ft_strdel.c ft_newbuffer.c
+             ft_strdel.c ft_newbuffer.c ft_strnjoin.c
 OFILES = ft_memalloc.o ft_strdup.o ft_memccpy.o ft_strequ.o ft_atoi.o\
  ft_memchr.o ft_striter.o ft_bzero.o ft_memcmp.o ft_striteri.o ft_cntwords.o\
   ft_memcpy.o ft_strjoin.o ft_count_digits.o	ft_memdel.o ft_strlcat.o\
@@ -38,7 +38,7 @@ OFILES = ft_memalloc.o ft_strdup.o ft_memccpy.o ft_strequ.o ft_atoi.o\
           ft_lstaddend.o ft_strcat.o ft_strstr.o ft_lstdel.o ft_strchr.o\
            ft_strsub.o ft_lstdelone.o ft_strclr.o ft_strtrim.o ft_lstiter.o\
             ft_strcmp.o ft_tolower.o ft_lstmap.o ft_strcpy.o ft_toupper.o\
-             ft_lstnew.o ft_strdel.o ft_newbuffer.o
+             ft_lstnew.o ft_strdel.o ft_newbuffer.o ft_strnjoin.o
 HEADERS = includes\libft.h
 
 all: $(NAME)

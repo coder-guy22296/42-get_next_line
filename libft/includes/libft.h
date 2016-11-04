@@ -34,7 +34,6 @@ typedef struct		s_buff
 {
 	void			*buffer;
 	int				buffer_len;
-	int				read_len;
 	int				buf_util;
 }					t_buff;
 
@@ -115,5 +114,6 @@ int					ft_lmapremove(t_lmap **map, void const *key,
 t_lmap				*ft_lmapget(t_lmap *map, void const *key);
 char				*ft_strmerge(char **main_str, char *add_str);
 t_buff				*ft_newbuffer(int buffer_len, size_t elem_size);
+char				*ft_strnjoin(char const *s1, char const *s2, size_t s2size);
 
 #endif

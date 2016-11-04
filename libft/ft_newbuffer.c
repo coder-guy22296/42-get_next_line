@@ -15,12 +15,12 @@
 t_buff	*ft_newbuffer(int buffer_len, size_t elem_size)
 {
 	t_buff *buff;
+
 	if (!(buff = (t_buff *)ft_memalloc(sizeof(t_buff))))
 		return (NULL);
-	if(!(buff->buffer = ft_memalloc(elem_size * buffer_len)))
+	if (!(buff->buffer = ft_memalloc(elem_size * buffer_len)))
 		return (NULL);
 	buff->buffer_len = buffer_len;
-	buff->read_len = 0;
 	buff->buf_util = 0;
 	return (buff);
 }
