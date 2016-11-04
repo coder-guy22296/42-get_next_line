@@ -23,20 +23,16 @@
 
 static void handle_partial_Buffer(t_lmap *cur_buff, char *newline_ptr, char **line, int fd)
 {
-	char			*write_buff;
 	int				line_len;
 	t_buff			*buffer;
 	int				bytes_read;
 
 	buffer = (t_buff *)cur_buff->content;
-	write_buff = ft_strnew(BUFF_SIZE);
 	newline_ptr = (char *)ft_strchr(buffer->buffer, '\n');
 	if (newline_ptr)
 	{
 		line_len =  newline_ptr - (char *)buffer->buffer;
-		ft_strncpy(write_buff, buffer->buffer, line_len);
-		*line = ft_strjoin(*line, write_buff);
-		ft_strclr(write_buff);
+		*line = ft_strnjoin(*line, buffer->buffer, line_len);
 		ft_memmove(buffer->buffer, newline_ptr + 1,
 					buffer->buf_util - (line_len + 1));
 		buffer->buf_util -= line_len + 1;
@@ -47,11 +43,9 @@ static void handle_partial_Buffer(t_lmap *cur_buff, char *newline_ptr, char **li
 	}
 	else
 	{
-		ft_strncpy(write_buff, buffer->buffer, buffer->buf_util);
+		*line = ft_strnjoin(*line, buffer->buffer, buffer->buf_util);
 		buffer->buf_util = 0;
-		*line = ft_strjoin(*line, write_buff);
 	}
-	ft_strdel(&write_buff);
 }
 
 int	get_next_line(const int fd, char **line)

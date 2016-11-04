@@ -37,7 +37,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t s2size)
 		index++;
 	}
 	i = 0;
-	while (s2[i] != '\0' && s2[i] < s2size)
+	while (s2[i] != '\0' && i < (int)s2size)
 	{
 		str_out[index] = s2[i];
 		i++;
