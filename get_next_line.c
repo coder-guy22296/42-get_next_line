@@ -28,7 +28,7 @@ static int	create_buffer(t_lmap **buffer_map, t_lmap **cur_buff, int fd)
 	t_buff			*tmpbuff;
 
 	tmpbuff = ft_newbuffer(BUFF_SIZE + 1, sizeof(char));
-	if (!(*cur_buff = ft_lmapnew(&fd, tmpbuff, sizeof(t_buff), sizeof(int))))
+	if (!(*cur_buff = ft_lmapnew(&fd, sizeof(int), tmpbuff, sizeof(t_buff))))
 		return (-1);
 	bytes_read = read(fd, ((t_buff *)(*cur_buff)->content)->buffer,
 						BUFF_SIZE);
@@ -120,7 +120,10 @@ int			get_next_line(const int fd, char **line)
 	}
 	buffer = (t_buff *)cur_buff->content;
 	if (buffer->buf_util == 0)
+	{
+		ft_lmapremove(&buffer_map, cur_buff->key, free, ft_delbuffer);
 		return (0);
+	}
 	handle_full_buffer(buffer, newline_ptr, line, fd);
 	handle_partial_buffer(cur_buff, newline_ptr, line, fd);
 	return (1);
