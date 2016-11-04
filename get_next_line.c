@@ -93,6 +93,8 @@ int			get_next_line(const int fd, char **line)
 	t_buff			*buffer;
 
 	newline_ptr = 0;
+	if (read(fd, newline_ptr, 0) == -1)
+		return (-1);
 	cur_buff = ft_lmapget(buffer_map, &fd);
 	if (!(*line = ft_strnew(0)) || BUFF_SIZE <= 0)
 		return (-1);
